@@ -325,8 +325,40 @@ contract DETFAllocation is Ownable {
     // Any withdrawals made by the team will be logged.
     event NewWithdrawal(address authorizer, address recipient, uint256 amount, string reason);
     
+    // Any account deposits will be logged.
+    event NewDeposit(address authorizer, string recipient, uint256 amount);
+    
    //  Any time the staking contract is changed, it will be logged so anyone can verify that contract address.
     event NewStakingContract(address authorizer, address oldContract, address newContract);
+    
+    // Anyone can add coins to one of the accounts in this contract.
+    function deposit(uint256 amount, uint account) public {
+        if (account == 1) {
+            dETF._burn(msg.sender, amount);
+            teamAllocation = teamAllocation.add(amount);
+            NewDeposit(msg.sender, "Team Allocation", amount);
+        }
+         if (account == 2) {
+            dETF._burn(msg.sender, amount);
+            liquidityAllocation = liquidityAllocation.add(amount);
+            NewDeposit(msg.sender, "Liquidity Allocation", amount);
+        }
+         if (account == 3) {
+            dETF._burn(msg.sender, amount);
+            stakingAllocation = stakingAllocation.add(amount);
+            NewDeposit(msg.sender, "Staking Allocation", amount);
+        }
+         if (account == 4) {
+            dETF._burn(msg.sender, amount);
+            marketingAllocation = marketingAllocation.add(amount);
+            NewDeposit(msg.sender, "Marketing Allocation", amount);
+        }
+         if (account == 5) {
+            dETF._burn(msg.sender, amount);
+            treasuryAllocation = treasuryAllocation.add(amount);
+            NewDeposit(msg.sender, "Treasury Allocation", amount);
+        }
+    }
     
     function withdrawTeam(address recipient, uint256 amount) public onlyOwner {
         if (lastTeamReleaseIndex < 5) {
