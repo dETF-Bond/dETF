@@ -275,6 +275,9 @@ abstract contract ERC20 is Context, IERC20, ExternalAccessible {
 contract DETF is ERC20 {
     
     constructor(address _accessContract) {
+        _name = "dETF";
+        _symbol = "dETF";
+        _decimals = 18;
         accessContract = _accessContract;
     }
 }
